@@ -100,6 +100,7 @@ public class Pong extends Application {
 //                        movVertical = "arriba";
 //                      }
 //                  }
+//                }
                 bolita.setTranslateX(posX);
             }
             

@@ -42,8 +42,8 @@ public class Pong extends Application {
     final int BULLET_SPEED = 10;
     
             
-    int movimiento = 0;    
-    boolean direccion = movimiento == 0 ? true : false;
+    String movimiento = "derecha";    
+//    boolean direccion = movimiento == 0 ? true : false;
 
     Image imgShip = new Image(getClass().getResourceAsStream("/image/ship.png"));
     Image imgBullet = new Image(getClass().getResourceAsStream("/image/bullet.png"));
@@ -72,17 +72,19 @@ public class Pong extends Application {
                 double posX = bolita.getTranslateX();
                 System.out.println(posX + "" + bolita.getScaleZ());
                 
-                if (direccion){
+                if (movimiento == "derecha"){
                     posX++;
                     if (posX == 150){
-                        movimiento = 1;
+                        movimiento = "izquierda";
                     }
                 }
-                else {
+                else {if (movimiento == "izquierda"){
                     posX--;
+                    if (posX == -150){
+                        movimiento = "derecha";
+                    }
                 }
-                
-
+               }
                 bolita.setTranslateX(posX);
 
             }

@@ -60,10 +60,18 @@ public class Pong extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         
-        //import javafx.scene.shape.Rectangule
+        //import javafx.scene.shape.Rectangle
         Circle bolita = new Circle (250, 200, 10);
         bolita.setFill(Color.WHITE);
         root.getChildren().add(bolita);
+        
+        Rectangle jugador1 = new Rectangle (10,50,10,70);
+        jugador1.setFill(Color.WHITE);
+        root.getChildren().add(jugador1);
+        
+        Rectangle jugador2 = new Rectangle (480,50,10,70);
+        jugador2.setFill(Color.WHITE);
+        root.getChildren().add(jugador2);
 
         // Infinite game loop
         new AnimationTimer() {

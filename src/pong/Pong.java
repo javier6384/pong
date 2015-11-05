@@ -40,12 +40,18 @@ public class Pong extends Application {
     int bulletPosX, bulletPosY;
     boolean shooting = false;
     final int BULLET_SPEED = 10;
+    
+            
+    int movimiento = 0;    
+    boolean direccion = movimiento == 0 ? true : false;
 
     Image imgShip = new Image(getClass().getResourceAsStream("/image/ship.png"));
     Image imgBullet = new Image(getClass().getResourceAsStream("/image/bullet.png"));
     
     @Override
     public void start(Stage primaryStage) {
+
+
         // Create scene
         Group root = new Group();
         Scene scene = new Scene(root, WORLD_WIDTH, WORLD_HEIGHT, Color.BLACK);
@@ -66,21 +72,18 @@ public class Pong extends Application {
                 double posX = bolita.getTranslateX();
                 System.out.println(posX + "" + bolita.getScaleZ());
                 
+                if (direccion){
+                    posX++;
+                    if (posX == 150){
+                        movimiento = 1;
+                    }
+                }
+                else {
+                    posX--;
+                }
                 
-                int direccion = 0;
-                
-                
-                if (posX>=-150){
-                    posX++;}
-                if (posX==151){
-                    posX = 0;
-                    posX++;}
-                
-                
+
                 bolita.setTranslateX(posX);
-                bolita.getContentBias();
-                
-                
 
             }
             

@@ -64,14 +64,21 @@ public class Pong extends Application {
             public void handle(long now) {
                 
                 double posX = bolita.getTranslateX();
-                System.out.println(posX);
+                System.out.println(posX + "" + bolita.getScaleZ());
+                
+                
+                int direccion = 0;
+                
                 
                 if (posX>=-150){
                     posX++;}
-                else {
-                    posX--;}
-                bolita.setTranslateX(posX);
+                if (posX==151){
+                    posX = 0;
+                    posX++;}
                 
+                
+                bolita.setTranslateX(posX);
+                bolita.getContentBias();
                 
                 
 

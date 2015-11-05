@@ -42,7 +42,8 @@ public class Pong extends Application {
     final int BULLET_SPEED = 10;
     
             
-    String movimiento = "derecha";    
+    String movLateral = "derecha";
+    String movVertical = "arriba";
 //    boolean direccion = movimiento == 0 ? true : false;
 
     Image imgShip = new Image(getClass().getResourceAsStream("/image/ship.png"));
@@ -60,7 +61,7 @@ public class Pong extends Application {
         primaryStage.show();
         
         //import javafx.scene.shape.Rectangule
-        Circle bolita = new Circle (200, 15, 10);
+        Circle bolita = new Circle (250, 15, 10);
         bolita.setFill(Color.WHITE);
         root.getChildren().add(bolita);
 
@@ -70,23 +71,36 @@ public class Pong extends Application {
             public void handle(long now) {
                 
                 double posX = bolita.getTranslateX();
-                System.out.println(posX + "" + bolita.getScaleZ());
+                double posY = bolita.getTranslateY();
+                System.out.println(posX + "" + posY);
                 
-                if (movimiento == "derecha"){
+                if (movLateral == "derecha"){
                     posX++;
-                    if (posX == 150){
-                        movimiento = "izquierda";
+                    if (posX == 240){
+                        movLateral = "izquierda";
                     }
                 }
-                else {if (movimiento == "izquierda"){
+                else {if (movLateral == "izquierda"){
                     posX--;
-                    if (posX == -150){
-                        movimiento = "derecha";
+                    if (posX == -240){
+                        movLateral = "derecha";
+                        }
                     }
                 }
-               }
+                
+//                if (movVertical== "arriba"){
+//                    posY++;
+//                    if (posY == 0){
+//                        movVertical = "abajo";
+//                    }
+//                }
+//                else {if (movVertical == "abajo"){
+//                    posY--;
+//                    if (posY == -240){
+//                        movVertical = "arriba";
+//                      }
+//                  }
                 bolita.setTranslateX(posX);
-
             }
             
     }.start();

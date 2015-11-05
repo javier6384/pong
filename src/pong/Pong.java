@@ -7,18 +7,13 @@ package pong;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -30,17 +25,13 @@ public class Pong extends Application {
     
     final int WORLD_WIDTH = 500;
     final int WORLD_HEIGHT = 400;
-
-    // Player ship position
-    int shipPosX = 240;
-    final int SHIP_POS_Y = 350;
-    final int SHIP_SPEED = 5;
-
-    // Bullet position
-    int bulletPosX, bulletPosY;
-    boolean shooting = false;
-    final int BULLET_SPEED = 10;
+  
+    int posIniJugadores = 165;
+    final int LARGO_JUGADORES = 70;
+    final int ANCHO_JUGADORES = 10;
     
+    final int LINEA_JUGADOR1 = 20;
+    final int LINEA_JUGADOR2 = 470;
             
     String movLateral = "derecha";
     String movVertical = "arriba";
@@ -65,13 +56,21 @@ public class Pong extends Application {
         bolita.setFill(Color.WHITE);
         root.getChildren().add(bolita);
         
-        Rectangle jugador1 = new Rectangle (10,50,10,70);
+        //Jugador 1
+        Rectangle jugador1 = new Rectangle (LINEA_JUGADOR1,posIniJugadores,ANCHO_JUGADORES,LARGO_JUGADORES);
         jugador1.setFill(Color.WHITE);
         root.getChildren().add(jugador1);
         
-        Rectangle jugador2 = new Rectangle (480,50,10,70);
+        //jugador 2
+        Rectangle jugador2 = new Rectangle (LINEA_JUGADOR2,posIniJugadores,ANCHO_JUGADORES,LARGO_JUGADORES);
         jugador2.setFill(Color.WHITE);
         root.getChildren().add(jugador2);
+        
+        //Línea divisoria
+        Line red = new Line (250, 0 , 250, 400);
+        red.setStroke(Color.WHITE);
+//        red.setStroke(tipo de linea);
+        root.getChildren().add(red);
 
         // Infinite game loop
         new AnimationTimer() {
@@ -111,6 +110,8 @@ public class Pong extends Application {
                 }
                 bolita.setTranslateX(posX);
                 bolita.setTranslateY(posY);
+                jugador1.setTranslateY(posY);
+                jugador2.setTranslateY(posY);
             }
             
     }.start();

@@ -61,7 +61,7 @@ public class Pong extends Application {
         primaryStage.show();
         
         //import javafx.scene.shape.Rectangule
-        Circle bolita = new Circle (250, 15, 10);
+        Circle bolita = new Circle (250, 200, 10);
         bolita.setFill(Color.WHITE);
         root.getChildren().add(bolita);
 
@@ -72,7 +72,7 @@ public class Pong extends Application {
                 
                 double posX = bolita.getTranslateX();
                 double posY = bolita.getTranslateY();
-                System.out.println(posX + "" + posY);
+                System.out.println(posX + "      " + posY);
                 
                 if (movLateral == "derecha"){
                     posX++;
@@ -88,20 +88,21 @@ public class Pong extends Application {
                     }
                 }
                 
-//                if (movVertical== "arriba"){
-//                    posY++;
-//                    if (posY == 0){
-//                        movVertical = "abajo";
-//                    }
-//                }
-//                else {if (movVertical == "abajo"){
-//                    posY--;
-//                    if (posY == -240){
-//                        movVertical = "arriba";
-//                      }
-//                  }
-//                }
+                if (movVertical == "arriba"){
+                    posY--;
+                    if (posY == -190){
+                        movVertical = "abajo";
+                    }
+                }
+                else {if (movVertical == "abajo"){
+                    posY++;
+                    if (posY == 190){
+                        movVertical = "arriba";
+                        }
+                    }
+                }
                 bolita.setTranslateX(posX);
+                bolita.setTranslateY(posY);
             }
             
     }.start();

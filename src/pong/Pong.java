@@ -15,6 +15,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -35,8 +36,9 @@ public class Pong extends Application {
             
     String movLateral = "derecha";
     String movVertical = "arriba";
-//    boolean direccion = movimiento == 0 ? true : false;
 
+
+    
     Image imgShip = new Image(getClass().getResourceAsStream("/image/ship.png"));
     Image imgBullet = new Image(getClass().getResourceAsStream("/image/bullet.png"));
     
@@ -71,8 +73,15 @@ public class Pong extends Application {
         red.setStroke(Color.WHITE);
 //        red.setStroke(tipo de linea);
         root.getChildren().add(red);
+        
+        //Marcador
+        
+        Text marcador =new Text();
+        marcador.setFill(Color.YELLOWGREEN);
+//        marcador.setFont(TAHOMA, (20));
+        root.getChildren().add(marcador);
 
-        // Infinite game loop
+        // Infinite game loop 
         new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -80,6 +89,12 @@ public class Pong extends Application {
                 double posX = bolita.getTranslateX();
                 double posY = bolita.getTranslateY();
                 System.out.println(posX + "      " + posY);
+                
+                byte marcadorLocal = 0;
+                byte marcadorVisitante = 0;
+                String textMarcadorLocal = String.valueOf(marcadorLocal);
+                String textMarcadorVisitante = String.valueOf(marcadorVisitante);
+                Text marcador =new Text(240, 20, textMarcadorLocal + "   " + textMarcadorVisitante);
                 
                 if (movLateral == "derecha"){
                     posX++;
@@ -112,6 +127,15 @@ public class Pong extends Application {
                 bolita.setTranslateY(posY);
                 jugador1.setTranslateY(posY);
                 jugador2.setTranslateY(posY);
+                
+                
+                if (posX == 240){
+                    marcadorLocal++;
+                }
+                else {if (posX == -240){
+                    marcadorVisitante++;}
+
+                }
             }
             
     }.start();

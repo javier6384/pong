@@ -114,13 +114,13 @@ public class Pong extends Application {
 //                Text marcador =new Text(240, 20, textMarcadorLocal + "   " + textMarcadorVisitante);
                 
                 if (movLateral == "derecha"){
-                    posX++;
+                    posX+=2;
                     if (posX == 240){
                         movLateral = "izquierda";
                     }
                 }
                 else {if (movLateral == "izquierda"){
-                    posX--;
+                    posX-=2;
                     if (posX == -240){
                         movLateral = "derecha";
                         }

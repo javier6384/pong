@@ -143,8 +143,7 @@ public class Pong extends Application {
                 
                 bolita.setTranslateX(posX);
                 bolita.setTranslateY(posY);
-                
-                
+                                
                 if (posX == 240){
                     marcadorLocal++;
                 }

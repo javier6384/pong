@@ -154,8 +154,6 @@ public class Pong extends Application {
                 
                 marcador.setText(textMarcadorLocal + "   " + textMarcadorVisitante);
             
-                
-                
  
                 posJugador1 += movimientoJugador1;
                 jugador1.setTranslateY(posJugador1);
@@ -165,15 +163,15 @@ public class Pong extends Application {
                 jugador2.setTranslateY(posJugador2);
                 
                 if (posJugador1 == -165){
-                movimientoJugador1 = 0;}
+                    movimientoJugador1 = 0;}
                 else {if (posJugador1 == 165){
-                movimientoJugador1 = 0;}
+                    movimientoJugador1 = 0;}
                 }
                 
                 if (posJugador2 == -165){
-                movimientoJugador2 = 0;}
+                    movimientoJugador2 = 0;}
                 else {if (posJugador2 == 165){
-                movimientoJugador2 = 0;}
+                    movimientoJugador2 = 0;}
                 }
                 
                 if ((posX == -210) && (posY >= posJugador1 -35) && (posY <=posJugador1 + 35 )){
@@ -197,31 +195,37 @@ public class Pong extends Application {
                 switch (event.getCode()) {
                     case S:
                         if (posJugador1 == -165){
-                        movimientoJugador1 = 0;
+                            movimientoJugador1 = 0;
                         }
                         else {movimientoJugador1 = -3;
                         }
                         break;    
                     case X:
                         if (posJugador1 == 165){
-                        movimientoJugador1 = 0;
+                            movimientoJugador1 = 0;
                         }
                         else {movimientoJugador1 = 3;
                         }
-                        break;  
+                        break;
+                    case A:
+                        movimientoJugador1 = 0;
+                        break;
                     case K:
                         if (posJugador2 == -165){
-                        movimientoJugador2 = 0;
+                            movimientoJugador2 = 0;
                         }
                         else {movimientoJugador2 = -3;
                         }
                         break; 
                     case M:
                         if (posJugador2 == 165){
-                        movimientoJugador2 = 0;
+                            movimientoJugador2 = 0;
                         }
                         else {movimientoJugador2 = 3;
                         }
+                        break;
+                    case L:
+                        movimientoJugador2 = 0;
                         break;
                 }
             }

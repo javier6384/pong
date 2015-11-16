@@ -38,8 +38,8 @@ public class Pong extends Application {
     final int POSX_J1 = 20;
     final int POSX_J2 = 470;
             
-    String movLateral = "derecha";
-    String movVertical = "arriba";
+    int movLateral = 2;
+    int movVertical = -1;
 
     byte marcadorLocal = 0;
     byte marcadorVisitante = 0;
@@ -55,6 +55,9 @@ public class Pong extends Application {
     //jugador 2
     Rectangle jugador2 = new Rectangle (0,0,WIDTH_PLAYERS,HEIGHT_PLAYERS);
     double posJugador2;
+    
+    double posXBolita;
+    double posYBolita;
     
 //    Image imgShip = new Image(getClass().getResourceAsStream("/image/ship.png"));
 //    Image imgBullet = new Image(getClass().getResourceAsStream("/image/bullet.png"));
@@ -111,9 +114,9 @@ public class Pong extends Application {
             @Override
             public void handle(long now) {
                 
-                double posX = bolita.getTranslateX();
-                double posY = bolita.getTranslateY();
-                System.out.println(posY);
+                posXBolita = bolita.getTranslateX();
+                posYBolita = bolita.getTranslateY();
+                System.out.println(posYBolita);
 //                System.out.println(posJugador1);
 //                System.out.println(posJugador2);
 
@@ -121,41 +124,41 @@ public class Pong extends Application {
                 String textMarcadorVisitante = String.valueOf(marcadorVisitante);
 //                Text marcador =new Text(240, 20, textMarcadorLocal + "   " + textMarcadorVisitante);
                 
-                if (movLateral == "derecha"){
-                    posX+=2;
-                    if (posX == (WORLD_WIDTH - 10)){
-                        movLateral = "izquierda";
+                if (movLateral > 0){
+                    posXBolita += movLateral;
+                    if (posXBolita >= (WORLD_WIDTH - 10)){
+                        movLateral = -2;
                     }
                 }
-                else {if (movLateral == "izquierda"){
-                    posX-=2;
-                    if (posX == RIGHT_LIMIT + 10){
-                        movLateral = "derecha";
+                else {if (movLateral < 0){
+                    posXBolita += movLateral;
+                    if (posXBolita <= RIGHT_LIMIT + 10){
+                        movLateral = 2;
                         }
                     }
                 }
                 
-                if (movVertical == "arriba"){
-                    posY--;
-                    if (posY == TOP_LIMIT + 10){
-                        movVertical = "abajo";
+                if (movVertical < 0){
+                    posYBolita += movVertical;
+                    if (posYBolita <= 10){
+                        movVertical = 1;
                     }
                 }
-                else {if (movVertical == "abajo"){
-                    posY++;
-                    if (posY == 390){
-                        movVertical = "arriba";
+                else {if (movVertical > 0){
+                    posYBolita += movVertical;
+                    if (posYBolita >= 390){
+                        movVertical = -1;
                         }
                     }
                 }
                 
-                bolita.setTranslateX(posX);
-                bolita.setTranslateY(posY);
+                bolita.setTranslateX(posXBolita);
+                bolita.setTranslateY(posYBolita);
                                 
-                if (posX == (WORLD_WIDTH - 10)){
+                if (posXBolita == (WORLD_WIDTH - 10)){
                     marcadorLocal++;
                 }
-                else {if (posX == 10){
+                else {if (posXBolita == 10){
                     marcadorVisitante++;}
                 }
                 
@@ -169,22 +172,71 @@ public class Pong extends Application {
                 
                 if (posJugador1 == 0){
                     movimientoJugador1 = 0;}
-                else {if (posJugador1 == (WORLD_HEIGHT - 10)){
+                else {if (posJugador1 == (WORLD_HEIGHT - HEIGHT_PLAYERS)){
                     movimientoJugador1 = 0;}
                 }
                 
                 if (posJugador2 == 0){
                     movimientoJugador2 = 0;}
-                else {if (posJugador2 == (WORLD_HEIGHT - 10)){
+                else {if (posJugador2 == (WORLD_HEIGHT - HEIGHT_PLAYERS)){
                     movimientoJugador2 = 0;}
                 }
                 
-                if ((posX == 40) && (posY >= posJugador1) && (posY <=posJugador1 + HEIGHT_PLAYERS )){
-                    movLateral ="derecha";
+                //Partes de la pala Jugador1
+                double zona1 = (posYBolita - posJugador1) / 14;
+                int zona1Trunc = (int)zona1;
+                
+                if ((posXBolita == 40) && (zona1Trunc == 0)){
+                    movLateral = 4;
+                    movVertical = -6;
+                    if(posYBolita >= 390 || posYBolita <= 10) {
+//                        movLateral *= -1;
+                        movVertical *= -1;
+                    }
+                    
+                }                
+    
+                if ((posXBolita == 40) && (zona1Trunc == 1)){
+                    movLateral = 3;
+                    movVertical = -3;
+                    if(posYBolita >= 390 || posYBolita <= 10) {
+//                        movLateral *= -1;
+                        movVertical *= -1;
+                    }
                 }
                 
-                if ((posX == 460) && (posY >= posJugador2) && (posY <=posJugador2 + HEIGHT_PLAYERS )){
-                    movLateral = "izquierda";
+                if ((posXBolita == 40) && (zona1Trunc == 2)){
+                    movLateral = 2;
+                    movVertical = -2;
+                    if(posYBolita >= 390 || posYBolita <= 10) {
+//                        movLateral *= -1;
+                        movVertical *= -1;
+                    }
+                }
+                
+                if ((posXBolita == 40) && (zona1Trunc == 3)){
+                    movLateral = 3;
+                    movVertical = 3;
+                    if(posYBolita >= 390 || posYBolita <= 10) {
+//                        movLateral *= -1;
+                        movVertical *= -1;
+                    }
+                }
+                
+                if ((posXBolita == 40) && (zona1Trunc == 4)){
+                    movLateral = 4;
+                    movVertical = 6;
+                    if(posYBolita <= 390 || posYBolita >= 10) {
+//                        movLateral *= -1;
+                        movVertical *= -1;
+                    }
+                }
+                //Partes de la pala Jugador1
+                double zona2 = (posYBolita - posJugador2) / 14;
+                int zona2Trunc = (int)zona2;
+                
+                if ((posXBolita == 460) && (posYBolita >= posJugador2) && (posYBolita <=posJugador2 + HEIGHT_PLAYERS )){
+                    movLateral = -2;
                 }
             }  
             
@@ -203,7 +255,7 @@ public class Pong extends Application {
                         }
                         break;    
                     case X:
-                        if (posJugador1 == (WORLD_HEIGHT - 10)){
+                        if (posJugador1 == (WORLD_HEIGHT - HEIGHT_PLAYERS)){
                             movimientoJugador1 = 0;
                         }
                         else {movimientoJugador1 = 3;
@@ -220,7 +272,7 @@ public class Pong extends Application {
                         }
                         break; 
                     case M:
-                        if (posJugador2 == (WORLD_HEIGHT - 10)){
+                        if (posJugador2 == (WORLD_HEIGHT - HEIGHT_PLAYERS)){
                             movimientoJugador2 = 0;
                         }
                         else {movimientoJugador2 = 3;

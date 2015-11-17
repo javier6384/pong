@@ -39,8 +39,8 @@ public class Pong extends Application {
     final int POSX_J1 = 20;
     final int POSX_J2 = 470;
             
-    int movLateral = 2;
-    int movVertical = -1;
+    int movLateral = 0;
+    int movVertical = 0;
 
     byte marcadorLocal = 0;
     byte marcadorVisitante = 0;
@@ -60,6 +60,7 @@ public class Pong extends Application {
     double posXBolita;
     double posYBolita;
     
+    Random inicio= new Random();
 //    Image imgShip = new Image(getClass().getResourceAsStream("/image/ship.png"));
 //    Image imgBullet = new Image(getClass().getResourceAsStream("/image/bullet.png"));
     
@@ -127,7 +128,7 @@ public class Pong extends Application {
                 
                 if (movLateral > 0){
                     posXBolita += movLateral;
-                    if (posXBolita >= (WORLD_WIDTH - 10)){
+                    if (posXBolita >= (WORLD_WIDTH)){
                         movLateral *= -1;
                         marcadorLocal++;
                         posXBolita = 250;
@@ -138,7 +139,7 @@ public class Pong extends Application {
                 }
                 else {if (movLateral < 0){
                     posXBolita += movLateral;
-                    if (posXBolita <= RIGHT_LIMIT + 10){
+                    if (posXBolita <= RIGHT_LIMIT){
                         movLateral *= -1;
                         marcadorVisitante++;
                         posXBolita = 250;
@@ -200,98 +201,67 @@ public class Pong extends Application {
                 int zona1Trunc = (int)zona1;
                 
                 if ((posXBolita == 40) && (zona1Trunc == 0)){
-                    movLateral = 4;
-                    movVertical = -6;
-//                    if(posYBolita >= 390 || posYBolita <= 10) {
-////                        movLateral *= -1;
-//                        movVertical *= -1;
-//                    }
-                    
+                    movVertical = -3;
+                    movLateral *= -1;
                 }                
     
                 if ((posXBolita == 40) && (zona1Trunc == 1)){
-                    movLateral = 3;
-                    movVertical = -3;
-//                    if(posYBolita >= 390 || posYBolita <= 10) {
-////                        movLateral *= -1;
-//                        movVertical *= -1;
-//                    }
+                    movVertical = -2;
+                    movLateral *= -1;
                 }
                 
                 if ((posXBolita == 40) && (zona1Trunc == 2)){
-                    movLateral = 2;
-                    movVertical = -1;
-//                    if(posYBolita >= 390 || posYBolita <= 10) {
-////                        movLateral *= -1;
-//                        movVertical *= -1;
-//                    }
+                    if (movVertical > 0){
+                        movVertical = 1;
+                        movLateral *= -1;
+                    }
+                    else {movVertical = -1;
+                          movLateral *= -1;
+                    }                   
                 }
                 
                 if ((posXBolita == 40) && (zona1Trunc == 3)){
-                    movLateral = 3;
-                    movVertical = 3;
-//                    if(posYBolita >= 390 || posYBolita <= 10) {
-////                        movLateral *= -1;
-//                        movVertical *= -1;
-//                    }
+                    movVertical = 2;
+                    movLateral *= -1;
                 }
                 
                 if ((posXBolita == 40) && (zona1Trunc == 4)){
-                    movLateral = 4;
-                    movVertical = 6;
-//                    if(posYBolita <= 390 || posYBolita >= 10) {
-////                        movLateral *= -1;
-//                        movVertical *= -1;
-//                    }
+                    movVertical = 3;
+                    movLateral *= -1;
                 }
+                
                 //Partes de la pala Jugador1
                 double zona2 = (posYBolita - posJugador2) / 14;
                 int zona2Trunc = (int)zona2;
                 
                 if ((posXBolita == 460) && (zona2Trunc == 0)){
-                    movLateral = -4;
-                    movVertical = -6;
-//                    if(posYBolita >= 390 || posYBolita <= 10) {
-////                        movLateral *= -1;
-//                        movVertical *= -1;
-//                    }
-                    
+                    movVertical = -3;
+                    movLateral *= -1;
                 }                
     
                 if ((posXBolita == 460) && (zona2Trunc == 1)){
-                    movLateral = -3;
-                    movVertical = -3;
-//                    if(posYBolita >= 390 || posYBolita <= 10) {
-////                        movLateral *= -1;
-//                        movVertical *= -1;
-//                    }
+                    movVertical = -2;
+                    movLateral *= -1;
                 }
                 
                 if ((posXBolita == 460) && (zona2Trunc == 2)){
-                    movLateral = -2;
-                    movVertical = -1;
-//                    if(posYBolita >= 390 || posYBolita <= 10) {
-////                        movLateral *= -1;
-//                        movVertical *= -1;
-//                    }
+                    if (movVertical > 0){
+                        movVertical = 1;
+                        movLateral *= -1;
+                    }
+                    else {movVertical = -1;
+                          movLateral *= -1;
+                    }                   
                 }
                 
                 if ((posXBolita == 460) && (zona2Trunc == 3)){
-                    movLateral = -3;
-                    movVertical = 3;
-//                    if(posYBolita >= 390 || posYBolita <= 10) {
-////                        movLateral *= -1;
-//                        movVertical *= -1;
-//                    }
+                    movVertical = 2;
+                    movLateral *= -1;
                 }
                 
                 if ((posXBolita == 460) && (zona2Trunc == 4)){
-                    movLateral = -4;
-                    movVertical = 6;
-//                    if(posYBolita <= 390 || posYBolita >= 10) {
-////                        movLateral *= -1;
-//                        movVertical *= -1;
-//               
+                    movVertical = 3;
+                    movLateral *= -1;
                 }
             }  
             
@@ -337,9 +307,10 @@ public class Pong extends Application {
                         movimientoJugador2 = 0;
                         break;
                     case SPACE:
-                        Random inicioX= new Random(); 
-//                        inicioX.ints(2 || -2);
-                        Random inicioY= new Random();
+                        if(posXBolita == 250 && posYBolita == 200)
+                        {movLateral = inicio.nextInt(2) * 4 - 2;
+                        movVertical = inicio.nextInt(2) * 2 - 1;
+                        }
                 }
             }
         });

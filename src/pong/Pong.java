@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -106,9 +107,9 @@ public class Pong extends Application {
         
         //Marcador
         
-        Text marcador =new Text(240, 20, null);
-        marcador.setFill(Color.YELLOWGREEN);
-//        marcador.setFont(TAHOMA, (20));
+        Text marcador =new Text(120, 200, null);
+        marcador.setFill(Color.GREY);
+        marcador.setFont(Font.font(180));
         root.getChildren().add(marcador);
 
         // Infinite game loop 
@@ -213,10 +214,10 @@ public class Pong extends Application {
                 if ((posXBolita == 40) && (zona1Trunc == 2)){
                     if (movVertical > 0){
                         movVertical = 1;
-                        movLateral *= -1;
+                        movLateral = 2;
                     }
                     else {movVertical = -1;
-                          movLateral *= -1;
+                          movLateral = 2;
                     }                   
                 }
                 
@@ -247,10 +248,10 @@ public class Pong extends Application {
                 if ((posXBolita == 460) && (zona2Trunc == 2)){
                     if (movVertical > 0){
                         movVertical = 1;
-                        movLateral *= -1;
+                        movLateral = -2;
                     }
                     else {movVertical = -1;
-                          movLateral *= -1;
+                          movLateral = -2;
                     }                   
                 }
                 

@@ -26,9 +26,10 @@ import javafx.stage.Stage;
  */
 public class Pong extends Application {
     
+    //
     final int WORLD_WIDTH = 500;
     final int WORLD_HEIGHT = 400;
-    final int RIGHT_LIMIT = 0;
+    final int LEFT_LIMIT = 0;
     final int TOP_LIMIT = 0;
     
     int posIniJ1 = 165;
@@ -49,14 +50,19 @@ public class Pong extends Application {
     byte movimientoJugador1 = 0;
     byte movimientoJugador2 = 0;
     
+    final int LINEA_CONTACTO_PALA = 40;
+    final int CAMBIO_DIRECCION = -1;
+    
     //Jugador 1
-    Rectangle jugador1 = new Rectangle (0,0,WIDTH_PLAYERS,HEIGHT_PLAYERS);
-//        jugador1.setFill(Color.WHITE);
+    Rectangle jugador1 = new Rectangle (LEFT_LIMIT,TOP_LIMIT,WIDTH_PLAYERS,HEIGHT_PLAYERS);
     double posJugador1;
     
     //jugador 2
-    Rectangle jugador2 = new Rectangle (0,0,WIDTH_PLAYERS,HEIGHT_PLAYERS);
+    Rectangle jugador2 = new Rectangle (LEFT_LIMIT,TOP_LIMIT,WIDTH_PLAYERS,HEIGHT_PLAYERS);
     double posJugador2;
+    
+    //Bolita
+    final int RADIO = 10;
     
     double posXBolita;
     double posYBolita;
@@ -76,8 +82,14 @@ public class Pong extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         
+        //Marcador
+        Text marcador =new Text(80, 260, null);
+        marcador.setFill(Color.GREY);
+        marcador.setFont(Font.font(180));
+        root.getChildren().add(marcador);
+        
         //import javafx.scene.shape.Rectangle
-        Circle bolita = new Circle (0, 0, 10);
+        Circle bolita = new Circle (LEFT_LIMIT, TOP_LIMIT, RADIO);
         bolita.setTranslateX(250);
         bolita.setTranslateY(200);
         bolita.setFill(Color.WHITE);
@@ -102,16 +114,8 @@ public class Pong extends Application {
         //Línea divisoria
         Line red = new Line (250, 0 , 250, 400);
         red.setStroke(Color.WHITE);
-//        red.setStroke(tipo de linea);
         root.getChildren().add(red);
         
-        //Marcador
-        
-        Text marcador =new Text(120, 200, null);
-        marcador.setFill(Color.GREY);
-        marcador.setFont(Font.font(180));
-        root.getChildren().add(marcador);
-
         // Infinite game loop 
         new AnimationTimer() {
             @Override
@@ -120,31 +124,29 @@ public class Pong extends Application {
                 posXBolita = bolita.getTranslateX();
                 posYBolita = bolita.getTranslateY();
                 System.out.println(posYBolita);
-//                System.out.println(posJugador1);
-//                System.out.println(posJugador2);
 
                 String textMarcadorLocal = String.valueOf(marcadorLocal);
                 String textMarcadorVisitante = String.valueOf(marcadorVisitante);
-//                Text marcador =new Text(240, 20, textMarcadorLocal + "   " + textMarcadorVisitante);
+
                 
                 if (movLateral > 0){
                     posXBolita += movLateral;
                     if (posXBolita >= (WORLD_WIDTH)){
-                        movLateral *= -1;
+                        movLateral *= CAMBIO_DIRECCION;
                         marcadorLocal++;
-                        posXBolita = 250;
-                        posYBolita = 200;
-                        movLateral=0;
+                        posXBolita = WORLD_WIDTH * 0.5;
+                        posYBolita = WORLD_HEIGHT * 0.5;
+                        movLateral= 0;
                         movVertical = 0;
                     }
                 }
                 else {if (movLateral < 0){
                     posXBolita += movLateral;
-                    if (posXBolita <= RIGHT_LIMIT){
-                        movLateral *= -1;
+                    if (posXBolita <= LEFT_LIMIT){
+                        movLateral *= CAMBIO_DIRECCION;
                         marcadorVisitante++;
-                        posXBolita = 250;
-                        posYBolita = 200;
+                        posXBolita = WORLD_WIDTH * 0.5;
+                        posYBolita = WORLD_HEIGHT * 0.5;
                         movLateral=0;
                         movVertical = 0;
                         }
@@ -153,14 +155,14 @@ public class Pong extends Application {
                 
                 if (movVertical < 0){
                     posYBolita += movVertical;
-                    if (posYBolita <= 10){
-                        movVertical *= -1;
+                    if (posYBolita <= RADIO){
+                        movVertical *= CAMBIO_DIRECCION;
                     }
                 }
                 else {if (movVertical > 0){
                     posYBolita += movVertical;
-                    if (posYBolita >= 390){
-                        movVertical *= -1;
+                    if (posYBolita >= WORLD_HEIGHT - RADIO){
+                        movVertical *= CAMBIO_DIRECCION;
                         }
                     }
                 }
@@ -168,14 +170,6 @@ public class Pong extends Application {
                 bolita.setTranslateX(posXBolita);
                 bolita.setTranslateY(posYBolita);
                                 
-//                if (posXBolita >= WORLD_WIDTH){
-//                    marcadorLocal++;
-//                    posXBolita = 250;
-//                }
-//                else {if (posXBolita < 0){
-//                    marcadorVisitante++;
-//                    posXBolita = 250;}
-//                }
                 
                 marcador.setText(textMarcadorLocal + "   " + textMarcadorVisitante);
             
@@ -201,17 +195,17 @@ public class Pong extends Application {
                 double zona1 = (posYBolita - posJugador1) / 14;
                 int zona1Trunc = (int)zona1;
                 
-                if ((posXBolita == 40) && (zona1Trunc == 0)){
+                if ((posXBolita == LINEA_CONTACTO_PALA) && (zona1Trunc == 0)){
                     movVertical = -3;
-                    movLateral *= -1;
+                    movLateral *= CAMBIO_DIRECCION;
                 }                
     
-                if ((posXBolita == 40) && (zona1Trunc == 1)){
+                if ((posXBolita == LINEA_CONTACTO_PALA) && (zona1Trunc == 1)){
                     movVertical = -2;
-                    movLateral *= -1;
+                    movLateral *= CAMBIO_DIRECCION;
                 }
                 
-                if ((posXBolita == 40) && (zona1Trunc == 2)){
+                if ((posXBolita == LINEA_CONTACTO_PALA) && (zona1Trunc == 2)){
                     if (movVertical > 0){
                         movVertical = 1;
                         movLateral = 2;
@@ -221,31 +215,31 @@ public class Pong extends Application {
                     }                   
                 }
                 
-                if ((posXBolita == 40) && (zona1Trunc == 3)){
+                if ((posXBolita == LINEA_CONTACTO_PALA) && (zona1Trunc == 3)){
                     movVertical = 2;
-                    movLateral *= -1;
+                    movLateral *= CAMBIO_DIRECCION;
                 }
                 
-                if ((posXBolita == 40) && (zona1Trunc == 4)){
+                if ((posXBolita == LINEA_CONTACTO_PALA) && (zona1Trunc == 4)){
                     movVertical = 3;
-                    movLateral *= -1;
+                    movLateral *= CAMBIO_DIRECCION;
                 }
                 
                 //Partes de la pala Jugador1
                 double zona2 = (posYBolita - posJugador2) / 14;
                 int zona2Trunc = (int)zona2;
                 
-                if ((posXBolita == 460) && (zona2Trunc == 0)){
+                if ((posXBolita == WORLD_WIDTH - LINEA_CONTACTO_PALA) && (zona2Trunc == 0)){
                     movVertical = -3;
-                    movLateral *= -1;
+                    movLateral *= CAMBIO_DIRECCION;
                 }                
     
-                if ((posXBolita == 460) && (zona2Trunc == 1)){
+                if ((posXBolita == WORLD_WIDTH - LINEA_CONTACTO_PALA) && (zona2Trunc == 1)){
                     movVertical = -2;
-                    movLateral *= -1;
+                    movLateral *= CAMBIO_DIRECCION;
                 }
                 
-                if ((posXBolita == 460) && (zona2Trunc == 2)){
+                if ((posXBolita == WORLD_WIDTH - LINEA_CONTACTO_PALA) && (zona2Trunc == 2)){
                     if (movVertical > 0){
                         movVertical = 1;
                         movLateral = -2;
@@ -255,14 +249,14 @@ public class Pong extends Application {
                     }                   
                 }
                 
-                if ((posXBolita == 460) && (zona2Trunc == 3)){
+                if ((posXBolita == WORLD_WIDTH - LINEA_CONTACTO_PALA) && (zona2Trunc == 3)){
                     movVertical = 2;
-                    movLateral *= -1;
+                    movLateral *= CAMBIO_DIRECCION;
                 }
                 
-                if ((posXBolita == 460) && (zona2Trunc == 4)){
+                if ((posXBolita == WORLD_WIDTH - LINEA_CONTACTO_PALA) && (zona2Trunc == 4)){
                     movVertical = 3;
-                    movLateral *= -1;
+                    movLateral *= CAMBIO_DIRECCION;
                 }
             }  
             
@@ -308,9 +302,9 @@ public class Pong extends Application {
                         movimientoJugador2 = 0;
                         break;
                     case SPACE:
-                        if(posXBolita == 250 && posYBolita == 200)
-                        {movLateral = inicio.nextInt(2) * 4 - 2;
-                        movVertical = inicio.nextInt(2) * 2 - 1;
+                        if(posXBolita == (WORLD_WIDTH * 0.5) && posYBolita == (WORLD_HEIGHT * 0.5)){
+                            movLateral = inicio.nextInt(2) * 4 - 2;
+                            movVertical = inicio.nextInt(2) * 2 - 1;
                         }
                 }
             }

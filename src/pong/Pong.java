@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Juego basado en el Pong Original 
  */
 package pong;
 
@@ -19,6 +17,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -33,8 +32,8 @@ public class Pong extends Application {
     final int TOP_LIMIT = 0;
     
     //Posiciones verticales de los jugadores al iniciar
-    int posIniJ1 = 165;
-    int posIniJ2 = 165;
+    int posYIniJ1 = 165;
+    int posYIniJ2 = 165;
     
     //Tamaño de los jugadores
     final int HEIGHT_PLAYERS = 70;
@@ -55,16 +54,14 @@ public class Pong extends Application {
     int movVertical = STOP;
     int movJugador1 = STOP;
     int movJugador2 = STOP;    
+    final int CAMBIO_DIRECCION = -1;
 
     //Marcador
     int marcadorLocal = 0;
     int marcadorVisitante = 0;
 
-
     final int LINEA_CONTACTO_PALA = 40;
-    
-    final int CAMBIO_DIRECCION = -1;
-    
+
     //Jugador 1
     Rectangle jugador1 = new Rectangle (LEFT_LIMIT,TOP_LIMIT,WIDTH_PLAYERS,HEIGHT_PLAYERS);
     double posJugador1;
@@ -85,6 +82,10 @@ public class Pong extends Application {
     
     @Override
     public void start(Stage primaryStage) {
+        //Desactiva el botón maximizar
+//        primaryStage.initStyle(StageStyle.UTILITY); 
+//        primaryStage.setResizable(false);
+
 
         //Create scene
         Group root = new Group();
@@ -99,7 +100,7 @@ public class Pong extends Application {
         marcador.setFont(Font.font(180));
         root.getChildren().add(marcador);
         
-        //import javafx.scene.shape.Rectangle
+        //Bolita
         Circle bolita = new Circle (LEFT_LIMIT, TOP_LIMIT, RADIO);
         bolita.setTranslateX(250);
         bolita.setTranslateY(200);
@@ -109,19 +110,19 @@ public class Pong extends Application {
         //Jugador 1
         jugador1.setFill(Color.WHITE);
         jugador1.setTranslateX(POSX_J1);
-        jugador1.setTranslateY(posIniJ1);
+        jugador1.setTranslateY(posYIniJ1);
         posJugador1 = jugador1.getTranslateY();
         root.getChildren().add(jugador1);
         
         //jugador 2
         jugador2.setFill(Color.WHITE);
         jugador2.setTranslateX(POSX_J2);
-        jugador2.setTranslateY(posIniJ2);
+        jugador2.setTranslateY(posYIniJ2);
         posJugador2 = jugador2.getTranslateY();
         root.getChildren().add(jugador2);
         
         //Línea divisoria
-        Line red = new Line (250, 0 , 250, 400);
+        Line red = new Line (WORLD_WIDTH * 0.5, TOP_LIMIT , WORLD_WIDTH * 0.5, WORLD_HEIGHT);
         red.setStroke(Color.WHITE);
         root.getChildren().add(red);
         
@@ -132,10 +133,6 @@ public class Pong extends Application {
                 
                 posXBolita = bolita.getTranslateX();
                 posYBolita = bolita.getTranslateY();
-                System.out.println(posYBolita);
-
-                String textMarcadorLocal = String.valueOf(marcadorLocal);
-                String textMarcadorVisitante = String.valueOf(marcadorVisitante);
 
                 //Acciones al llegar a los fondos
                 if (movLateral > STOP){
@@ -162,6 +159,7 @@ public class Pong extends Application {
                     }
                 }
                 
+                //Acciones al llegar a los márgenes superior e nferior
                 if (movVertical < STOP){
                     posYBolita += movVertical;
                     if (posYBolita <= RADIO){
@@ -179,8 +177,29 @@ public class Pong extends Application {
                 //Muestra la bolita y el marcador
                 bolita.setTranslateX(posXBolita);
                 bolita.setTranslateY(posYBolita);
+                String textMarcadorLocal = String.valueOf(marcadorLocal);
+                String textMarcadorVisitante = String.valueOf(marcadorVisitante);
                 marcador.setText(textMarcadorLocal + "   " + textMarcadorVisitante);
-            
+               
+                //Restablece la partida al llegara a los diez puntos
+                if(marcadorLocal == 10) {
+                    marcadorLocal = 0;
+                    marcadorVisitante = 0;
+                    movJugador1 = STOP;
+                    movJugador2 = STOP;
+                    posJugador1 = posYIniJ1;
+                    posJugador2 = posYIniJ2;
+                }
+                else{if(marcadorVisitante == 10) {
+                        marcadorLocal = 0;
+                        marcadorVisitante = 0;
+                        movJugador1 = STOP;
+                        movJugador2 = STOP;
+                        posJugador1 = posYIniJ1;
+                        posJugador2 = posYIniJ2; 
+                    }
+                }
+                
                 //Muestra los jugadores
                 posJugador1 += movJugador1;
                 jugador1.setTranslateY(posJugador1);
@@ -192,13 +211,13 @@ public class Pong extends Application {
                 if (posJugador1 == TOP_LIMIT){
                     movJugador1 = STOP;}
                 else {if (posJugador1 == (WORLD_HEIGHT - HEIGHT_PLAYERS)){
-                    movJugador1 = STOP;}
+                        movJugador1 = STOP;}
                 }
                 
                 if (posJugador2 == TOP_LIMIT){
                     movJugador2 = STOP;}
                 else {if (posJugador2 == (WORLD_HEIGHT - HEIGHT_PLAYERS)){
-                    movJugador2 = STOP;}
+                        movJugador2 = STOP;}
                 }
                 
                 //Partes de la pala Jugador1
@@ -277,6 +296,7 @@ public class Pong extends Application {
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
+                    //Acciones con las teclas
                     case S:
                         if (posJugador1 == TOP_LIMIT){
                             movJugador1 = STOP;
